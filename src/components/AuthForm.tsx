@@ -9,6 +9,8 @@ import { useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { loginAction, signUpAction } from "@/actions/users";
+
 
 type Props = {
   type: "login" | "signUp";
@@ -21,7 +23,38 @@ const AuthForm = ({ type }: Props) => {
   const isLoginForm = type === "login";
 
   const handleSubmit = (formData: FormData) => {
-    console.log("form submitted");
+    startTransition(async() => {
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+
+      let errorMessage;
+      let title;
+      let description;
+
+      if(isLoginForm){
+        errorMessage = (await loginAction(email, password)).errorMessage;
+        title = "Logged In";
+        description = "You have been successsfylly Logged in";
+      }
+      else {
+        errorMessage = (await signUpAction(email, password)).errorMessage;
+        title = "Signed Up";
+        description = "Check your email for confirmation link";
+      }
+
+      if(!errorMessage){
+        toast.success(title, {
+          description,
+        })
+        router.replace("/");
+      }
+      else {
+        toast.error(title, {
+          description,
+        })
+      }
+
+    })
   };
   return (
     <form action={handleSubmit}>
