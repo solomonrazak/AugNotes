@@ -94,7 +94,7 @@ const AuthForm = ({ type }: Props) => {
             ? "Don't have an account yet?"
             : "Already have an account?"}
           <Link
-            href={isLoginForm ? "/sign-up" : "login"}
+            href={isLoginForm ? "/sign-up" : "/login"}
             className={`ml-1 text-blue-500 ${isPending ? "pointer-events-none opacity-50" : ""}`}
           >
             {isLoginForm ? "Sign Up" : "Login"}

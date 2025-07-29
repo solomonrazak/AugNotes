@@ -5,10 +5,11 @@ import { Button } from "./ui/button";
 import DarkModeToggle from "./DarkModeToggle";
 import LogoutButton from "./LogoutButton";
 import { getUser } from "@/auth/server";
+import { Session } from "@supabase/supabase-js";
 
 
-const Header = async () => {
-  const user = await getUser();
+const Header = async ({ session }: { session: Session | null }) => {
+  const user = session?.user
   return (
     <header
       className="bg-popover relative flex h-20 w-full items-center justify-between px-3 sm:px-8"
